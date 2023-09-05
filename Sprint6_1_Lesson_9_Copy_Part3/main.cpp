@@ -1,69 +1,9 @@
-#include <algorithm>
-#include <cassert>
-#include <stdexcept>
-#include <exception>
-#include <vector>
-
 #include "octopus.h"
 
+#include <cassert>
+#include <iostream>
 
 using namespace std;
-
-template <typename T>
-class PtrVector {
-public:
-    PtrVector() = default;
-
-    // Создаёт вектор указателей на копии объектов из other
-    PtrVector(const PtrVector& other) {
-        items_.reserve(other.items_.size());
-        // Реализуйте копирующий конструктор самостоятельно
-        try {        
-            for (auto ptr : other.GetItems()) {
-                if (ptr) {
-                    T* ptr_copy = new T(*ptr);
-                    items_.push_back(ptr_copy);
-                } else {
-                    items_.push_back(nullptr);
-                }
-            }
-        }
-        catch (bad_alloc&) {
-            for (auto ptr : items_) {
-                delete ptr;
-            }      
-            throw;
-        }
-    }
-
-    // Деструктор удаляет объекты в куче, на которые ссылаются указатели,
-    // в векторе items_
-    ~PtrVector() {
-        // Реализуйте тело деструктора самостоятельно
-        for (auto ptr : items_) {
-            delete ptr;
-        }
-    }
-
-    // Возвращает ссылку на вектор указателей
-    vector<T*>& GetItems() noexcept {
-        // Реализуйте метод самостоятельно
-        return items_;
-    }
-
-    // Возвращает константную ссылку на вектор указателей
-    vector<T*> const& GetItems() const noexcept {
-        // Реализуйте метод самостоятельно
-        return items_;
-    }
-
-private:
-    vector<T*> items_;
-};
-
-
-
-
 
 int main() {
     // Проверка конструирования осьминогов
