@@ -82,7 +82,7 @@ int main() {
             , deletion_count_(rhs.deletion_count_)  // счётчик удалений
         {
             if (rhs.throw_on_copy_) {
-                throw runtime_error("copy construction failed"s);
+                throw runtime_error("copy construction failed");
             }
             ++copy_count_;
         }
