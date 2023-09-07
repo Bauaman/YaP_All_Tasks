@@ -130,7 +130,7 @@ class SingleLinkedList {
         [[nodiscard]] pointer operator->() const noexcept {
             assert(node_ != nullptr);
             // Заглушка. Реализуйте оператор самостоятельно
-            return node_->value;
+            return &node_->value;
         }
 
     private:
