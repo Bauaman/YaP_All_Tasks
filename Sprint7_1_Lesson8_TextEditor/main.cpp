@@ -7,7 +7,11 @@ using namespace std::string_literals;
 
 class Editor {
 public:
-    Editor() {
+    Editor() :
+        text_(),
+        buffer_(),
+        cursor_(text_.begin())
+    {
     }
     
     // сдвинуть курсор влево
@@ -24,11 +28,12 @@ public:
     void Paste();
     // получить текущее содержимое текстового редактора
     string GetText() const;
+    string GetBuffer() const;
 
 private:
     list<char> text_;
     list<char> buffer_;
-    list<char>::iterator cursor_ = text_.begin();
+    list<char>::iterator cursor_;
 };
 
 void Editor::Insert(char token) {
@@ -44,16 +49,16 @@ void Editor::Cut(size_t tokens) {
         tokens = static_cast<size_t>(distance(cursor_,text_.end()));
     }
     auto end_of_range = next(cursor_,tokens);
-    buffer_.assign(cursor_,end_of_range);
-    cursor_ = next(text_.erase(cursor_,end_of_range));
+    buffer_ = {cursor_,end_of_range};
+    cursor_ = text_.erase(cursor_,end_of_range);
 }
 
-void Editor::Copy(size_t tokens = 1) {
+void Editor::Copy(size_t tokens) {
     if (tokens > static_cast<size_t>(distance(cursor_,text_.end()))) {
         tokens = static_cast<size_t>(distance(cursor_,text_.end()));
     }
     auto end_of_range = next(cursor_,tokens);
-    buffer_.assign(cursor_, end_of_range);
+    buffer_ = {cursor_,end_of_range};
 }
 
 void Editor::Left() {
@@ -74,7 +79,12 @@ string Editor::GetText() const {
     return {text_.begin(), text_.end()};
 }
 
+string Editor::GetBuffer() const {
+    return {buffer_.begin(), buffer_.end()};
+}
+
 int main() {
+    /*
     Editor editor;
     const string text = "hello, world"s;
     for (char c : text) {
@@ -105,6 +115,31 @@ int main() {
     // Текущее состояние редактора: `world, hello|`
     cout << editor.GetText();
     return 0;
-
-    
-}
+    */
+    Editor editor;
+    const string text = "0123456789";
+    for (char c : text) {
+        editor.Insert(c);
+    }
+    for (int i = 0; i<2; ++i) {
+        editor.Left();
+    }
+    editor.Cut(2);
+    cout << "(" << editor.GetText() << ")" << endl;
+    cout << "(" << editor.GetBuffer() << ")" << endl;
+    for (int i = 0; i<2; ++i) {
+        editor.Left();
+    }
+    editor.Paste();
+    cout << "(" << editor.GetText() << ")" << endl;
+    cout << "(" << editor.GetBuffer() << ")" << endl;
+    editor.Insert('r');
+    cout << "(" << editor.GetText() << ")" << endl;
+    cout << "(" << editor.GetBuffer() << ")" << endl;
+    editor.Insert('k');
+    cout << "(" << editor.GetText() << ")" << endl;
+    cout << "(" << editor.GetBuffer() << ")" << endl;
+    editor.Cut(0);
+    cout << "(" << editor.GetText() << ")" << endl;
+    cout << "(" << editor.GetBuffer() << ")" << endl;
+    }
