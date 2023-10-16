@@ -51,6 +51,7 @@ namespace transport {
 			const Bus* GetBusByName (const std::string& bus_name) const;
 			const Stop* GetStopByName (const std::string& stop_name) const;
 			const Route* GetRouteByName (const std::string& route_name) const;
+			const std::set<std::string> GetRoutesForStop (const std::string& stop_name) const;
 			void FillStopToRoute(const Bus& bus);
 			void AddRoute(const Bus& bus);
 
@@ -60,6 +61,7 @@ namespace transport {
 			std::unordered_map <std::string_view, Stop*> name_to_stop_;
 			std::unordered_map <std::string_view, Bus*> name_to_bus_;
 			std::unordered_map <std::string_view, Route*> name_to_route_;
+			std::unordered_map <std::string_view, std::set<std::string>> routes_for_stop_;
 	};
 
 } //namepace transport

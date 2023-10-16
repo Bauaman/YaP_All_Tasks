@@ -12,19 +12,21 @@ using namespace transport::readers;
 int main() {
     TransportCatalogue catalogue;
 
-    int base_request_count;
-    cin >> base_request_count >> ws;
+    //int base_request_count;
+    //cin >> base_request_count >> ws;
 
     {
-        InputReader reader;
+        InputReader reader (cin, catalogue);
+        /*
         for (int i = 0; i < base_request_count; ++i) {
             string line;
             getline(cin, line);
             reader.ParseLine(line);
         }
-        reader.ApplyCommands(catalogue);
+        reader.ApplyCommands(catalogue);*/
     }
-
+    StatRequestAndPrint(cin, cout, catalogue);
+    /*
     int stat_request_count;
     cin >> stat_request_count >> ws;
 
@@ -32,5 +34,5 @@ int main() {
         string line;
         getline(cin, line);
         ParseAndPrintStat(catalogue, line, cout);
-    }
+    }*/
 }

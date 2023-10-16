@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include "transport_catalogue.h"
 
 namespace transport {
@@ -31,6 +32,16 @@ namespace transport {
                 if (name_to_stop_.count(st)) {
                     name_to_stop_.at(st)->buses_for_stop_.emplace(bus.route_name_);
                 }
+                routes_for_stop_[st].emplace(bus.route_name_);
+            }
+        }
+
+        const std::set<std::string> TransportCatalogue::GetRoutesForStop (const std::string& stop_name) const {
+            if (routes_for_stop_.count(stop_name)) {
+                return routes_for_stop_.at(stop_name);
+            }
+            else {
+                throw std::invalid_argument("stop doesn't exist");
             }
         }
 

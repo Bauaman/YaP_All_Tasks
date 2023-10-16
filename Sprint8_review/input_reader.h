@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -28,6 +29,18 @@ namespace transport {
 
         class InputReader {
         public:
+
+            InputReader(std::istream& input, TransportCatalogue& catalogue) {
+                int base_request_count = 1;
+                //input >> base_request_count >> std::ws;
+
+                for (int i = 0; i < base_request_count; ++i) {
+                    std::string line = "Bus 828: Biryulyovo Zapadnoye > Universam > Rossoshanskaya ulitsa > Biryulyovo Zapadnoye";
+                    //std::getline(input, line);
+                    ParseLine(line);
+                }
+                ApplyCommands(catalogue);
+            }
             /**
              * Парсит строку в структуру CommandDescription и сохраняет результат в commands_
              */
