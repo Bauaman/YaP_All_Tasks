@@ -12,7 +12,7 @@ namespace transport {
         void TransportCatalogue::AddStop (const Stop& stop) {
             stops_.insert(stops_.end(), stop);
             name_to_stop_[stop.stop_name_] = &stops_.back();
-
+            routes_for_stop_[&stops_.back()] = {};
         }
 
         const Bus* TransportCatalogue::GetBusByName (const std::string& bus_name) const {
@@ -29,20 +29,18 @@ namespace transport {
 
         void TransportCatalogue::FillStopToRoute(const Bus& bus) {
             for (const auto& st : bus.route_stops_) {
+            /*
                 if (name_to_stop_.count(st)) {
                     name_to_stop_.at(st)->buses_for_stop_.emplace(bus.route_name_);
                 }
-                routes_for_stop_[st].emplace(bus.route_name_);
+            */
+                Stop* st_p = name_to_stop_.at(st);
+                routes_for_stop_[st_p].emplace(bus.route_name_);
             }
         }
 
-        const std::set<std::string> TransportCatalogue::GetRoutesForStop (const std::string& stop_name) const {
-            if (routes_for_stop_.count(stop_name)) {
-                return routes_for_stop_.at(stop_name);
-            }
-            else {
-                throw std::invalid_argument("stop doesn't exist");
-            }
+        const std::set<std::string> TransportCatalogue::GetRoutesForStop (const Stop* st_p) const {
+                return routes_for_stop_.at(st_p);
         }
 
         void TransportCatalogue::AddRoute(const Bus& bus) {

@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <iostream>
+#include <set>
 #include <string>
 #include <stdexcept>
 
@@ -33,7 +34,7 @@ namespace transport::readers {
         }
     }
 
-    void PrintStop (std::string& request, const transport::Stop* stop, std::ostream& output, const transport::TransportCatalogue& tansport_catalogue) {
+    void PrintStop (const transport::Stop* stop, std::ostream& output, const transport::TransportCatalogue& tansport_catalogue) {
         /*
         if (stop != (std::nullptr_t)nullptr) {
             if (stop->buses_for_stop_.size() > 0) {
@@ -50,21 +51,19 @@ namespace transport::readers {
         else {
             output << "Stop " << request << ": not found\n";
         }*/
-        try {
-            if (tansport_catalogue.GetRoutesForStop(request).size() > 0) {
-                output << "Stop " << request << ": buses";
-                for(const std::string& rt : tansport_catalogue.GetRoutesForStop(request)) {
+
+        //try {
+            const std::set<std::string> res = tansport_catalogue.GetRoutesForStop(stop);
+            if (res.size() > 0) {
+                output << "Stop " << stop->stop_name_ << ": buses";
+                for(const std::string& rt : res) {
                     output << " " << rt;
                 }
                 output << "\n";
             } else {
-                output << "Stop " << request << ": no buses\n";
+                output << "Stop " << stop->stop_name_ << ": no buses\n";
             }
-        }
-        catch(const std::exception& e)
-        {
-            output << "Stop " << request << ": not found\n";
-        }
+
     }
 
     void ParseAndPrintStat(const transport::TransportCatalogue& tansport_catalogue, std::string_view request,
@@ -87,7 +86,11 @@ namespace transport::readers {
         }
         if (out_req.command == "Stop") {
             const transport::Stop* found = tansport_catalogue.GetStopByName(out_req.id);
-            PrintStop(out_req.id, found, output, tansport_catalogue);
+            if (found != (std::nullptr_t)nullptr) {
+                PrintStop(found, output, tansport_catalogue);
+            } else {
+                output << "Stop " << out_req.id << ": not found\n";
+            }
            /*
             if (found != (std::nullptr_t)nullptr) {
                 if (found->buses_for_stop_.size() > 0) {
