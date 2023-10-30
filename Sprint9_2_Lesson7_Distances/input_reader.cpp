@@ -6,6 +6,7 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <tuple>
 
 /**
  * Парсит строку вида "10.123,  -30.1837" и возвращает пару координат (широта, долгота)
@@ -134,6 +135,13 @@ namespace transport {
                         std::string(line.substr(not_space)),
                         {}};
             }
+
+            std::tuple<std::string_view, int> ParseDestination(std::string_view dest){
+                std::string meters_s = (/*str_dest*/detail::AsString(dest).substr(0,dest.find_first_of('m')));
+                int meters_i = detail::StringToInt(meters_s); 
+                std::string_view dest_name = detail::Trim(dest.substr(dest.find_first_of('o',0)+1));
+                return {dest_name, meters_i};
+            }
             
         } // namespace detail
             
@@ -167,20 +175,21 @@ namespace transport {
             for (auto [stop,str] : distances_for_stop) {
                 std::vector<std::string_view> destinations_for_stop = detail::Split(str, ',');
                 for (std::string_view dest : destinations_for_stop) {
-                    size_t pos = dest.find_first_of('m');
-                    std::string str_dest = detail::AsString(dest);
-                    std::string meters_s = (str_dest.substr(0,pos));
-                    int meters_i = detail::StringToInt(meters_s);                     
+                    //size_t pos = dest.find_first_of('m');
+                    //std::string str_dest = detail::AsString(dest);
+                    //std::string meters_s = (/*str_dest*/detail::AsString(dest).substr(0,dest.find_first_of('m')));
+                    //int meters_i = detail::StringToInt(meters_s);                     
                     //std::string dist = detail::Trim(dest.substr(0, dest.find_first_of('m',0))).data();
 
-                    std::string_view dest_name = detail::Trim(dest.substr(dest.find_first_of('o',0)+1));
+                    //std::string_view dest_name = detail::Trim(dest.substr(dest.find_first_of('o',0)+1));
+                    const auto [dest_name, dist] = detail::ParseDestination(dest);
                     const Stop* stop_dest =  catalogue.GetStopByName(detail::AsString(dest_name));
                     Key pair_stops {stop, stop_dest};
                     Key pair_stops_reverse {stop_dest, stop};
-                    catalogue.FillDistBwStops(pair_stops, meters_i);
+                    catalogue.FillDistBwStops(pair_stops, dist);
                     bool contains_reverse = catalogue.CheckIfContainsPair(pair_stops_reverse);
                     if (!contains_reverse) {
-                        catalogue.FillDistBwStops(pair_stops_reverse, meters_i);
+                        catalogue.FillDistBwStops(pair_stops_reverse, dist);
                     }
                 }
             }

@@ -58,8 +58,8 @@ namespace transport {
 	};
 
 	struct KeyHasher {
-			using is_transparent = void;
-			using transparent_key_equal = KeyEqual;
+		using is_transparent = void;
+		using transparent_key_equal = KeyEqual;
 		size_t operator()(const Key& stops) const {
 			std::hash<std::string> hasher;
 			return (hasher(stops.stop_from->stop_name_)*100 + hasher(stops.stop_to->stop_name_)*10);
