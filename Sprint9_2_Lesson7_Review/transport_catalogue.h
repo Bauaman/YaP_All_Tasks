@@ -50,19 +50,23 @@ namespace transport {
 		const Stop* stop_to;
 	};
 
-	struct KeyEqual {
+	//struct KeyEqual {
 
-		bool operator()(const StopsPair& lhs, const StopsPair& rhs) const {
-			return lhs.stop_from == rhs.stop_from && lhs.stop_to == rhs.stop_to;
-		}
-	};
+	//bool operator()(const StopsPair& lhs, const StopsPair& rhs) const {
+	//		return lhs.stop_from == rhs.stop_from && lhs.stop_to == rhs.stop_to;
+	//}
+	//};
 
 	struct KeyHasher {
 
 		size_t operator()(const StopsPair& stops) const {
 			std::hash<std::string> hasher;
 			return (hasher(stops.stop_from->stop_name_)*100 + hasher(stops.stop_to->stop_name_)*10);
-		} 
+		}
+
+		bool operator()(const StopsPair& lhs, const StopsPair& rhs) const {
+			return lhs.stop_from == rhs.stop_from && lhs.stop_to == rhs.stop_to;
+		}
 	};
 
 	class TransportCatalogue {
@@ -84,7 +88,7 @@ namespace transport {
 			std::unordered_map <std::string_view, Stop*> name_to_stop_;
 			std::unordered_map <std::string_view, Bus*> name_to_bus_;
 			std::unordered_map <const Stop*, std::set<Bus*>> routes_for_stop_;
-			std::unordered_map <StopsPair, int, KeyHasher, KeyEqual> distances_between_stops_;
+			std::unordered_map <StopsPair, int, KeyHasher/*, KeyEqual*/> distances_between_stops_;
 
 
 	};
