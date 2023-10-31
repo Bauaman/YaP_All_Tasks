@@ -23,7 +23,7 @@ namespace transport {
             return name_to_stop_.count(stop_name) ? name_to_stop_.at(stop_name) : (std::nullptr_t)nullptr;
         }
 
-        const Route* TransportCatalogue::GetRouteByName (const std::string& route_name) const {
+        const BusInfo* TransportCatalogue::GetRouteByName (const std::string& route_name) const {
             return name_to_route_.count(route_name) ? name_to_route_.at(route_name) : (std::nullptr_t)nullptr;
         }
 
@@ -59,24 +59,25 @@ namespace transport {
                 return routes_for_stop_.at(st_p);
         }
 
-        void TransportCatalogue::AddRoute(const Bus& bus) {
-            Route* route = new Route();
+        void TransportCatalogue::AddBusInfo(const Bus& bus) {
+            //Route* route = new Route();
+            BusInfo route((int)bus.route_stops_.size());
             std::unordered_set<std::string_view> unique_stops;
-            route->stops_count_ = bus.route_stops_.size();
+            //route.stops_count_ = bus.route_stops_.size();
             for (size_t i=0; i<bus.route_stops_.size()-1; ++i) {
                 Stop* from = name_to_stop_.at(bus.route_stops_[i]);
                 Stop* to = name_to_stop_.at(bus.route_stops_[i+1]);
                 geo::Coordinates coord_from = from->coord_;
                 geo::Coordinates coord_to = to->coord_;
-                route->route_length_ += geo::ComputeDistance(coord_from, coord_to);
+                route.route_length_ += geo::ComputeDistance(coord_from, coord_to);
                 Key route_key = {from,to};
-                route->route_distance_ += GetDistance(route_key);
+                route.route_distance_ += GetDistance(route_key);
                 unique_stops.emplace(bus.route_stops_[i]);
-                route->curvature_ = route->route_distance_*1.0 / route->route_length_;
+                route.curvature_ = route.route_distance_*1.0 / route.route_length_;
             }
             
-            route->unique_stops_count_ = unique_stops.size();
-            name_to_route_[bus.route_name_] = route;
+            route.unique_stops_count_ = (int)unique_stops.size();
+            name_to_route_[bus.route_name_] = &route;
         }
 
 }//namespace transport

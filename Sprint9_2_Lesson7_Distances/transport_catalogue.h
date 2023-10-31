@@ -37,7 +37,14 @@ namespace transport {
 		geo::Coordinates coord_;
 	};
 
-	struct Route {
+	struct BusInfo {
+
+		BusInfo() = default;
+
+		BusInfo(int stops_count) :
+			stops_count_(stops_count)
+		{}
+
 		int stops_count_;
 		int unique_stops_count_=0;
 		int route_distance_=0;
@@ -73,10 +80,10 @@ namespace transport {
 			void AddStop (const Stop& stop);
 			const Bus* GetBusByName (const std::string& bus_name) const;
 			const Stop* GetStopByName (const std::string& stop_name) const;
-			const Route* GetRouteByName (const std::string& route_name) const;
+			const BusInfo* GetRouteByName (const std::string& route_name) const;
 			const std::set<std::string> GetRoutesForStop (const Stop* st_p) const;
 			void FillStopToRoute(const Bus& bus);
-			void AddRoute(const Bus& bus);
+			void AddBusInfo(const Bus& bus);
 			void FillDistBwStops(Key, int dist);
 			bool CheckIfContainsPair(Key& stops);
 			int GetDistance (Key& stops);
@@ -86,7 +93,7 @@ namespace transport {
 			std::deque<Bus> buses_;
 			std::unordered_map <std::string_view, Stop*> name_to_stop_;
 			std::unordered_map <std::string_view, Bus*> name_to_bus_;
-			std::unordered_map <std::string_view, Route*> name_to_route_;
+			std::unordered_map <std::string_view, BusInfo*> name_to_route_;
 			std::unordered_map <const Stop*, std::set<std::string>> routes_for_stop_;
 			std::unordered_map <Key, int, KeyHasher, KeyEqual> distances_between_stops_;
 	};

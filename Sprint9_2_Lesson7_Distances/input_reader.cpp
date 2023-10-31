@@ -198,7 +198,7 @@ namespace transport {
                 transport::Bus* curr_bus = new transport::Bus(cd.id, detail::ParseRoute(cd.description));
                 catalogue.AddBus(std::move(*curr_bus));
                 catalogue.FillStopToRoute(*curr_bus);
-                catalogue.AddRoute(*curr_bus);
+                catalogue.AddBusInfo(*curr_bus);
             }
         }
     }//namespace readers

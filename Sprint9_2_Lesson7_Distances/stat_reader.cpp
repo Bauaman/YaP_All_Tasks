@@ -23,7 +23,7 @@ namespace transport::readers {
         }
     }
 
-    void PrintBus (std::string& request, const transport::Route* route, std::ostream& output) {
+    void PrintBus (std::string& request, const transport::BusInfo* route, std::ostream& output) {
         if (route != (std::nullptr_t)nullptr) {
             output << "Bus " << request << ": " << route->stops_count_ 
                     << " stops on route, " << route->unique_stops_count_
@@ -73,7 +73,7 @@ namespace transport::readers {
         
         CommandDescription out_req = detail::ParseRequestCommand(request);
         if (out_req.command == "Bus") {
-            const transport::Route* found = tansport_catalogue.GetRouteByName(out_req.id);
+            const transport::BusInfo* found = tansport_catalogue.GetRouteByName(out_req.id);
             PrintBus(out_req.id, found, output);
             /*
             if (found != (std::nullptr_t)nullptr) {
