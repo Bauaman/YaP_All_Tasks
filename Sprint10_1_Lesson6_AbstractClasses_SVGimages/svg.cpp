@@ -40,7 +40,7 @@ namespace svg {
 
     void Polyline::RenderObject(const RenderContext& context) const {
         auto& out = context.out;
-        out << "<points=\""sv;
+        out << "<polyline points=\""sv;
         bool isFirst = true;
         for (Point p : poly_points_) {
             if (isFirst) {
@@ -56,35 +56,42 @@ namespace svg {
     // ---------- Text ------------------
     Text& Text::SetPosition(Point pos) {
         text_.pos = pos;
+        return *this;
     }
 
     Text& Text::SetOffset(Point offset) {
         text_.offset = offset;
+        return *this;
     }
 
     Text& Text::SetFontSize(uint32_t size) {
         text_.size = size;
+        return *this;
     }
 
     Text& Text::SetFontFamily(std::string font_family) {
         text_.font_family = font_family;
+        return *this;
     }
 
     Text& Text::SetFontWeight(std::string font_weight) {
         text_.font_weight = font_weight;
+        return *this;
     }
 
     Text& Text::SetData(std::string data) {
         text_.data = data;
+        return *this;
     }
 
     void Text::RenderObject(const RenderContext& context) const {
         auto& out = context.out;
-        out << "<text x=\""sv << text_.pos.x << "\" y=\"" << text_.pos.y;
-        out << "\" dx=\"" << text_.offset.x << "\" dy=\"" << text_.offset.y;
-        out << "\" font-size=\"" << text_.size << "\" font-family=\"" << text_.font_family;
-        out << "\" font-weight=\"" << text_.font_weight << "\">" << text_.data;
-        out << "</text>"; 
+        out << "<text x=\""sv << text_.pos.x << "\" y=\""sv << text_.pos.y;
+        out << "\" dx=\""sv << text_.offset.x << "\" dy=\""sv << text_.offset.y;
+        out << "\" font-size=\""sv << text_.size;
+        if (!text_.font_family.empty()) out << "\" font-family=\""sv << text_.font_family;
+        if (!text_.font_weight.empty()) out << "\" font-weight=\""sv << text_.font_weight << "\">"sv << text_.data;
+        out << "</text>"sv; 
     }
     
     void Document::AddPtr(std::unique_ptr<Object>&& obj) {
@@ -92,7 +99,13 @@ namespace svg {
     }
 
     void Document::Render(std::ostream& out) const {
-        
+        RenderContext ctx {std::cout, 2, 2};
+        out << "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"sv << std::endl;
+        out << "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">"sv << std::endl;
+        for (const auto& obj : objects_) {
+            obj->Render(ctx);
+        }
+        out << "</svg>"sv;
     }
 
 }  // namespace svg

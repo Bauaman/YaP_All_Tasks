@@ -10,7 +10,6 @@ using namespace svg;
 Пример использования библиотеки. Он будет компилироваться и работать, когда вы реализуете
 все классы библиотеки.
 */
-/*
 namespace {
 
 Polyline CreateStar(Point center, double outer_rad, double inner_rad, int num_rays) {
@@ -43,7 +42,7 @@ void DrawPicture() {
 }
 
 }  // namespace
-*/
+
 
 int main() {
     /*
@@ -54,7 +53,7 @@ int main() {
        Document doc;
        doc.Add(Circle().SetCenter({20, 20}).SetRadius(10));
        doc.Render(std::cout);
-    */
+    
     std::cout << "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"sv << std::endl;
     std::cout << "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">"sv << std::endl;
 
@@ -63,5 +62,6 @@ int main() {
     RenderContext ctx(std::cout, 2, 2);
     c.Render(ctx);
 
-    std::cout << "</svg>"sv;
+    std::cout << "</svg>"sv;*/
+    DrawPicture();
 }
