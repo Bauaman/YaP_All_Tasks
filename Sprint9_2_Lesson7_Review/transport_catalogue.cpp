@@ -7,7 +7,7 @@ namespace transport {
             buses_.push_back(bus);
             name_to_bus_[bus.route_name_] = &buses_.back();
             for (const auto& st : bus.route_stops_) {
-                Stop* st_p = name_to_stop_.at(st);
+                const Stop* st_p = name_to_stop_.at(st);
                 routes_for_stop_[st_p].emplace(&bus);
             }
         }
@@ -44,7 +44,7 @@ namespace transport {
             return distances_between_stops_.at(stops);
         }
 
-        const std::set<Bus*> TransportCatalogue::GetRoutesForStop (const Stop* st_p) const {
+        const std::set<const Bus*> TransportCatalogue::GetRoutesForStop (const Stop* st_p) const {
                 return routes_for_stop_.at(st_p);
         }
 

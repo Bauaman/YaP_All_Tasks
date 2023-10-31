@@ -57,6 +57,7 @@ namespace transport {
             std::vector<CommandDescription> commands_;
         };
         namespace detail {
+            std::string AsString(std::string_view strv);
             CommandDescription ParseCommandDescription(std::string_view line);
             CommandDescription ParseRequestCommand(std::string_view line);
             std::tuple<std::string_view, int> ParseDestination(std::string_view dest);

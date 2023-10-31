@@ -1,12 +1,14 @@
 #include <algorithm>
 #include <iostream>
+#include <memory>
 #include <set>
 #include <string>
+#include <string_view>
 #include <stdexcept>
-#include <memory>
 
-#include "stat_reader.h"
 #include "input_reader.h"
+#include "stat_reader.h"
+
 
 namespace transport::readers {
 
@@ -24,36 +26,40 @@ namespace transport::readers {
         }
     }
 
-    std::unique_ptr<BusInfo> ComputeBusInfo(const Bus& bus, const transport::TransportCatalogue& tansport_catalogue) {
+    BusInfo ComputeBusInfo(const transport::Bus& bus, const transport::TransportCatalogue& tansport_catalogue) {
         BusInfo route;
         std::unordered_set<std::string_view> unique_stops;
         route.bus_no_ = bus.route_name_;
         route.stops_count_ = bus.route_stops_.size();
         for (size_t i=0; i<bus.route_stops_.size()-1; ++i) {
-            const Stop* from = tansport_catalogue.GetStopByName((bus.route_stops_[i]).data()); 
-            const Stop* to = tansport_catalogue.GetStopByName((bus.route_stops_[i+1]).data());
-            route.route_length_ += geo::ComputeDistance(from->coord_, to->coord_);
+            const std::string stv_from = transport::readers::detail::AsString(bus.route_stops_[i]);
+            const std::string stv_to = transport::readers::detail::AsString(bus.route_stops_[i+1]);
+            const Stop* from = tansport_catalogue.GetStopByName(stv_from); 
+            const Stop* to = tansport_catalogue.GetStopByName(stv_to);
+            transport::geo::Coordinates coord_from = from->coord_;
+            transport::geo::Coordinates coord_to = to->coord_;
+            route.route_length_ += transport::geo::ComputeDistance(coord_from, coord_to);
             route.route_distance_ += tansport_catalogue.GetDistance(from,to);
             unique_stops.emplace(bus.route_stops_[i]);
             route.curvature_ = route.route_distance_*1.0 / route.route_length_;
         }
             
         route.unique_stops_count_ = unique_stops.size();
-        return std::make_unique<BusInfo>(route);
+        return route;
     }
 
     void PrintBus (const transport::Bus* bus, std::ostream& output, const transport::TransportCatalogue& tansport_catalogue) {
-            std::unique_ptr<BusInfo> route = ComputeBusInfo(*bus, tansport_catalogue);
-            output << "Bus " << bus->route_name_ << ": " << route->stops_count_ 
-                    << " stops on route, " << route->unique_stops_count_
-                    << " unique stops, " << route->route_distance_
-                     << " route length, " << route->curvature_
+            BusInfo route = ComputeBusInfo(*bus, tansport_catalogue);
+            output << "Bus " << bus->route_name_ << ": " << route.stops_count_ 
+                    << " stops on route, " << route.unique_stops_count_
+                    << " unique stops, " << route.route_distance_
+                     << " route length, " << route.curvature_
                      << " curvature\n";
     }
 
     void PrintStop (const transport::Stop* stop, std::ostream& output, const transport::TransportCatalogue& tansport_catalogue) {
 
-            const std::set<Bus*> res = tansport_catalogue.GetRoutesForStop(stop);
+            const std::set<const Bus*> res = tansport_catalogue.GetRoutesForStop(stop);
             if (res.size() > 0) {
                 output << "Stop " << stop->stop_name_ << ": buses";
                 for(const Bus* rt : res) {
