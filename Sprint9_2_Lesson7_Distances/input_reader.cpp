@@ -175,13 +175,7 @@ namespace transport {
             for (auto [stop,str] : distances_for_stop) {
                 std::vector<std::string_view> destinations_for_stop = detail::Split(str, ',');
                 for (std::string_view dest : destinations_for_stop) {
-                    //size_t pos = dest.find_first_of('m');
-                    //std::string str_dest = detail::AsString(dest);
-                    //std::string meters_s = (/*str_dest*/detail::AsString(dest).substr(0,dest.find_first_of('m')));
-                    //int meters_i = detail::StringToInt(meters_s);                     
-                    //std::string dist = detail::Trim(dest.substr(0, dest.find_first_of('m',0))).data();
 
-                    //std::string_view dest_name = detail::Trim(dest.substr(dest.find_first_of('o',0)+1));
                     const auto [dest_name, dist] = detail::ParseDestination(dest);
                     const Stop* stop_dest =  catalogue.GetStopByName(detail::AsString(dest_name));
                     Key pair_stops {stop, stop_dest};
@@ -198,7 +192,7 @@ namespace transport {
                 transport::Bus* curr_bus = new transport::Bus(cd.id, detail::ParseRoute(cd.description));
                 catalogue.AddBus(std::move(*curr_bus));
                 catalogue.FillStopToRoute(*curr_bus);
-                catalogue.AddBusInfo(*curr_bus);
+                catalogue.AddRoute(*curr_bus);
             }
         }
     }//namespace readers

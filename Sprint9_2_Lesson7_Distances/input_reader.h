@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <string_view>
+#include <tuple>
 #include <vector>
 
 #include "geo.h"
@@ -58,6 +59,7 @@ namespace transport {
         namespace detail {
             CommandDescription ParseCommandDescription(std::string_view line);
             CommandDescription ParseRequestCommand(std::string_view line);
+            std::tuple<std::string_view, int> ParseDestination(std::string_view dest);
         } //namespace detail
     } //namespace readers
 } //namespace transport
