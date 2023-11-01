@@ -1,3 +1,5 @@
+#include <algorithm>
+#include <iostream>
 #include <stdexcept>
 #include "transport_catalogue.h"
 
@@ -7,11 +9,18 @@ namespace transport {
             buses_.push_back(bus);
             name_to_bus_[bus.route_name_] = &buses_.back();
             for (const auto& st : bus.route_stops_) {
-                const Stop* st_p = name_to_stop_.at(st);
-                routes_for_stop_[st_p].emplace(&bus);
+                //const Stop* st_p = name_to_stop_.at(st);
+                routes_for_stop_[st].emplace(&bus);
             }
         }
-
+        /*
+        void TransportCatalogue::SetRoutesForStop(const Bus& bus) {
+            for (const auto& st : bus.route_stops_) {
+                //const Stop* st_p = name_to_stop_.at(st);
+                routes_for_stop_[st].emplace(&bus);
+            }
+        }
+        */
         void TransportCatalogue::AddStop (const Stop& stop) {
             stops_.insert(stops_.end(), stop);
             name_to_stop_[stop.stop_name_] = &stops_.back();
@@ -23,6 +32,7 @@ namespace transport {
         }
 
         const Stop* TransportCatalogue::GetStopByName (const std::string& stop_name) const {
+            //std::cout << stop_name << std::endl;
             return name_to_stop_.count(stop_name) ? name_to_stop_.at(stop_name) : (std::nullptr_t)nullptr;
         }
 
@@ -44,8 +54,11 @@ namespace transport {
             return distances_between_stops_.at(stops);
         }
 
-        const std::set<const Bus*> TransportCatalogue::GetRoutesForStop (const Stop* st_p) const {
-                return routes_for_stop_.at(st_p);
+        const std::vector<const Bus*> TransportCatalogue::GetRoutesForStop (const Stop* st_p) const {
+                std::vector<const Bus*> res (routes_for_stop_.at(st_p).begin(), routes_for_stop_.at(st_p).end());
+                std::sort(res.begin(), res.end(), compareBuses());
+                //std::unordered_set<const Bus*> result(res.begin(), res.end());
+                return res;
         }
 
 }//namespace transport

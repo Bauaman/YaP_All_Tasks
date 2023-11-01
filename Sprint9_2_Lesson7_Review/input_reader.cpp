@@ -61,8 +61,9 @@ namespace transport {
              * Разбивает строку string на n строк, с помощью указанного символа-разделителя delim
              */
             std::vector<std::string_view> Split(std::string_view string, char delim) {
+            //std::vector<const Stop*> Split(std::string_view string, char delim, transport::TransportCatalogue& tc) {
                 std::vector<std::string_view> result;
-
+                //std::vector<const Stop*> res;
                 size_t pos = 0;
                 while ((pos = string.find_first_not_of(' ', pos)) < string.length()) {
                     auto delim_pos = string.find(delim, pos);
@@ -74,8 +75,34 @@ namespace transport {
                     }
                     pos = delim_pos + 1;
                 }
+                //for (std::string_view elt : result) {
+                //    std::string stop_name_str = AsString(elt);
+                //    res.push_back(tc.GetStopByName(stop_name_str));
+                //}
 
                 return result;
+            }
+
+            std::vector<const Stop*> Split(std::string_view string, char delim, transport::TransportCatalogue& tc) {
+                std::vector<std::string_view> result;
+                std::vector<const Stop*> res;
+                size_t pos = 0;
+                while ((pos = string.find_first_not_of(' ', pos)) < string.length()) {
+                    auto delim_pos = string.find(delim, pos);
+                    if (delim_pos == string.npos) {
+                        delim_pos = string.size();
+                    }
+                    if (auto substr = Trim(string.substr(pos, delim_pos - pos)); !substr.empty()) {
+                        result.push_back(substr);
+                    }
+                    pos = delim_pos + 1;
+                }
+                for (std::string_view elt : result) {
+                    std::string stop_name_str = AsString(elt);
+                    res.push_back(tc.GetStopByName(stop_name_str));
+                }
+
+                return res;
             }
 
             std::optional<std::string_view> ParseDistancesFromDescription(std::string_view str) {
@@ -94,7 +121,7 @@ namespace transport {
              * Для кольцевого маршрута (A>B>C>A) возвращает массив названий остановок [A,B,C,A]
              * Для некольцевого маршрута (A-B-C-D) возвращает массив названий остановок [A,B,C,D,C,B,A]
              */
-            std::vector<std::string_view> ParseRoute(std::string_view route) {
+            /*std::vector<std::string_view> ParseRoute(std::string_view route) {
                 if (route.find('>') != route.npos) {
                     return Split(route, '>');
                 }
@@ -105,7 +132,17 @@ namespace transport {
 
                 return results;
             }
-
+            */
+           std::vector<const Stop*> ParseRoute(std::string_view route, transport::TransportCatalogue& tc) {
+                
+                if (route.find('>') != route.npos) {
+                    return Split(route, '>', tc);
+                }
+                auto stops = Split(route, '-', tc);
+                std::vector<const Stop*> results(stops.begin(), stops.end());
+                results.insert(results.end(), std::next(stops.rbegin()), stops.rend());
+                return results;
+           }
 
             CommandDescription ParseCommandDescription(std::string_view line) {
                 auto colon_pos = line.find(':');
@@ -182,8 +219,10 @@ namespace transport {
             }
             
             for (const CommandDescription& cd : bus_requests) {
-                transport::Bus* curr_bus = new transport::Bus(cd.id, detail::ParseRoute(cd.description));
+                const std::vector<const Stop*> vect_stops_ptrs = detail::ParseRoute(cd.description, catalogue);
+                transport::Bus* curr_bus = new transport::Bus(cd.id, vect_stops_ptrs);
                 catalogue.AddBus(std::move(*curr_bus));
+                //catalogue.SetRoutesForStop(*curr_bus);
             }
         }
     }//namespace readers
