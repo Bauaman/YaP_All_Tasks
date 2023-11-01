@@ -49,19 +49,7 @@ namespace svg {
         int indent = 0;
     };
 
-    //Интерфейс предоставляет методы для рисования графических примитивов
-    class Graghics {
-    public:
-        virtual void MoveTo(Point p) = 0;
-        virtual void LineTo(Point p) = 0;
-        virtual void DrawCircle(Point center, double radius) = 0;
-    };
 
-    //Интерфейс Drawable задает обхекты, которые можно нарисовать с помощью Graphics
-    class Drawable{
-    public:
-        virtual void Draw(Graghics& g) const = 0;
-    };
 
     /*
     * Абстрактный базовый класс Object служит для унифицированного хранения
@@ -92,7 +80,7 @@ namespace svg {
 
         virtual void AddPtr(std::unique_ptr<Object>&& obj) = 0;
 
-    private:
+    protected:
         ~ObjectContainer() = default;
         std::vector<std::unique_ptr<Object>> objects_;
     };
@@ -107,6 +95,13 @@ namespace svg {
 
         Point center_;
         double radius_ = 1.0;
+    };
+
+    //Интерфейс Drawable задает обхекты, которые можно нарисовать с помощью Graphics
+    class Drawable{
+    public:
+        virtual ~Drawable() = default; 
+        virtual void Draw(ObjectContainer& oc) const = 0;
     };
 
     /*
@@ -166,25 +161,14 @@ namespace svg {
        
     };
 
-    class Document {
+    class Document : public ObjectContainer {
     public:
-        /*
-        Метод Add добавляет в svg-документ любой объект-наследник svg::Object.
-        Пример использования:
-        Document doc;
-        doc.Add(Circle().SetCenter({20, 30}).SetRadius(15));
-        */
-        // void Add(???);
 
         // Добавляет в svg-документ объект-наследник svg::Object
-        void AddPtr(std::unique_ptr<Object>&& obj);
+        void AddPtr(std::unique_ptr<Object>&& obj) override;
 
         // Выводит в ostream svg-представление документа
         void Render(std::ostream& out) const;
-
-        // Прочие методы и данные, необходимые для реализации класса Document
-    private:
-        std::vector<std::unique_ptr<Object>> objects_;
 
     };
 
