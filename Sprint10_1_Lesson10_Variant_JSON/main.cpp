@@ -17,7 +17,8 @@ namespace {
 
 json::Document LoadJSON(const std::string& s) {
     std::istringstream strm(s);
-    return json::Load(strm);
+    json::Document doc = json::Load(strm);
+    return doc;
 }
 
 std::string Print(const Node& node) {
