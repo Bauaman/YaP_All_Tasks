@@ -102,5 +102,5 @@ struct ValuePrinter {
 
 
 void Print(const Document& doc, std::ostream& output);
-
+void Print(const Node& node, std::ostream& output);
 }//namespace json

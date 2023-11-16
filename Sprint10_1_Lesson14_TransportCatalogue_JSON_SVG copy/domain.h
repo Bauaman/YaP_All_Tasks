@@ -1,6 +1,9 @@
 #pragma once
+#include <memory>
 #include <string>
+#include <variant>
 #include <vector>
+#include <set>
 #include <unordered_set>
 #include <unordered_map>
 
@@ -17,7 +20,7 @@
  *
  */
 
-namespace Domain {
+namespace Transport {
 
 //    struct Stop;
     struct Bus;
@@ -32,8 +35,16 @@ namespace Domain {
 
         const std::string stop_name_;
         const geo::Coordinates coord_;
-        std::unordered_set<const Bus*> buses_for_stop_;
-        std::unordered_map<const Stop*, int> distances_;
+        //std::unordered_set<const Bus*> buses_for_stop_;
+        //std::unordered_map<const Stop*, int> distances_;
+        std::set<std::string_view> buses_for_stop_;
+        size_t Hash() const {
+            return std::hash<std::string>{}(stop_name_) + magic_*std::hash<double>{}(coord_.lat) +
+                    magic_*magic_*std::hash<double>{}(coord_.lng);
+        }
+
+        static const size_t magic_{31};
+
     };
 
     struct Bus {
@@ -50,5 +61,29 @@ namespace Domain {
         bool is_round_;
     };
 
-}//namespace Domain
+    struct BusInfo {
+		std::string bus_no_;
+		int stops_count_=0;
+		int unique_stops_count_=0;
+		double route_distance_=0.;
+		int route_length_=0.;
+		double curvature_=0.;
+	};
+
+    class StatRequestOut {
+    public:
+        using Val = std::variant<std::nullptr_t, BusInfo*,const Stop*>;
+        StatRequestOut() = default;
+        StatRequestOut(BusInfo*);
+        StatRequestOut(const Stop*);
+
+        const Val& GetValue() const;
+         
+    private:
+        Val value_;
+    };
+
+    using StopsPair = std::pair<const Stop*, const Stop*>;
+
+}//namespace Transport
 

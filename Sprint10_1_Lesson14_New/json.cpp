@@ -280,8 +280,12 @@ namespace json {
         return std::get<Dict>(value_);
     }
     double Node::AsDouble() const {
-        if (!IsDouble()) {throw std::logic_error("wrong type");}
-        if (IsInt()) {return (double)std::get<int>(value_);}
+        if (!IsDouble()) {
+            throw std::logic_error("wrong type");
+        }
+        if (IsInt()) {
+            return (double)std::get<int>(value_);
+        }
         return std::get<double>(value_);
     }
     const Array& Node::AsArray() const {
@@ -414,7 +418,7 @@ namespace json {
         }
         out << std::endl;
         ctx.PrintIndent();
-        out << " }"sv;
+        out << "}"sv;
     }
 
     void PrintNode(const Node& node, PrintContext& ctx) {
@@ -424,6 +428,11 @@ namespace json {
     void Print(const Document& doc, std::ostream& output) {
         PrintContext ctx{output};
         PrintNode(doc.GetRoot(), ctx);
+    }
+
+    void Print(const Node& node, std::ostream& output) {
+        PrintContext ctx{output};
+        PrintNode(node, ctx);
     }
 
 }//namespace json

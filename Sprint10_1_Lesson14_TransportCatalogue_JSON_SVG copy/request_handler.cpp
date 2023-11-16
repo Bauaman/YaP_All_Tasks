@@ -28,8 +28,9 @@ RequestHandler* RequestHandler::GetHandler() {
 */
 
 void RequestHandler::ProcessInputRequests(Inputer* input) {
-    JsonDataReader* p = new JsonDataReader(transport_catalogue_);
-    p->ProcessInputRequests(input);
+    JsonDataReader* p_ = new JsonDataReader(transport_catalogue_);
+    p_->ProcessInputRequests(input);
+    
 }
 
 void RequestHandler::PrintCatalogueStats() {

@@ -12,4 +12,19 @@
  * Если структура вашего приложения не позволяет так сделать, просто оставьте этот файл пустым.
  *
  */
+namespace Transport {
+    StatRequestOut::StatRequestOut(BusInfo* value) :
+        value_(value)
+    {
+    }
+    StatRequestOut::StatRequestOut(const Stop* value) :
+        value_(value)
+    {
+    }
+
+    const StatRequestOut::Val& StatRequestOut::GetValue() const {
+        return value_;
+    }
+
+} //namespace Dimain
 

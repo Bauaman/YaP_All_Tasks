@@ -6,6 +6,8 @@
 
 #include "transport_catalogue.h"
 
+
+
 /*
  * Здесь можно было бы разместить код обработчика запросов к базе, содержащего логику, которую не
  * хотелось бы помещать ни в transport_catalogue, ни в json reader.
@@ -73,6 +75,5 @@ public:
     // RequestHandler использует агрегацию объектов "Транспортный Справочник" и "Визуализатор Карты"
         Transport::TransportCatalogue* transport_catalogue_ = nullptr;
         Inputer* input_;
-
     //const renderer::MapRenderer& renderer_;
 };
