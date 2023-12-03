@@ -24,7 +24,10 @@ void JsonDataReader::ParseAndProcessBaseRequests(const json::Node& node) {
     for (const json::Node& bus_req : bus_basic_reqs) {
         ParseBusBaseRequest(bus_req);
     }
-    ProcessStopsPairDistances();
+    std::unordered_map<std::string_view, Stop*> stops_ = catalogue_.get()->GetAllStops();
+    for(const auto& [stop_name, stop] : stops_) {
+        catalogue_.get()->SetDistancesBetweenStops(stop);
+    }
 }
 
 void JsonDataReader::ParseStopBaseRequest(const json::Node& node) {
@@ -56,9 +59,6 @@ void JsonDataReader::ParseBusBaseRequest(const json::Node& node) {
     catalogue_->AddBus(std::move(bus));
 }
 
-void JsonDataReader::ProcessStopsPairDistances() {
-    catalogue_->SetDistancesBetweenStops();
-}
 
 void JsonDataReader::ParseStatRequests(const json::Node& node, const std::shared_ptr<MapRenderer> renderer) {
     for (auto& request : node.AsArray()) {

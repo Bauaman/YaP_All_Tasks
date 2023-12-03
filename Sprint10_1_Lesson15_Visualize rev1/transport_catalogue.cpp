@@ -1,11 +1,11 @@
 #include "transport_catalogue.h"
 
-void TransportCatalogue::AddStop(Stop&& stop) {
+void TransportCatalogue::AddStop(const Stop& stop) {
     Stop* curr_stop = &stops_.emplace_back(std::move(stop));
     name_to_stops_.insert({std::string_view(curr_stop->stop_name_), curr_stop});
 }
 
-void TransportCatalogue::AddBus(Bus&& bus) {
+void TransportCatalogue::AddBus(const Bus& bus) {
     Bus* curr_bus = &buses_.emplace_back(std::move(bus));
     name_to_buses_.insert({std::string_view(curr_bus->bus_name_), curr_bus});
     for(Stop* st : curr_bus->route_stops_) {
@@ -22,13 +22,11 @@ void TransportCatalogue::AddBus(Bus&& bus) {
     }
 }
 
-void TransportCatalogue::SetDistancesBetweenStops() {
-    for (Stop& stop : stops_) {
-        Stop* src_stop = GetStopByName(stop.stop_name_);
-        for (const auto& [dest_name, dist] : stop.dist_to_stops_) {
+void TransportCatalogue::SetDistancesBetweenStops(const Stop* stop) {
+        for (const auto& [dest_name, dist] : stop->dist_to_stops_) {
             Stop* dest_stop = GetStopByName(dest_name);
-            const StopsPair pair {src_stop, dest_stop};
-            const StopsPair rev_pair {dest_stop, src_stop};
+            const StopsPair pair {stop, dest_stop};
+            const StopsPair rev_pair {dest_stop, stop};
             if (distances_for_stops.count(pair) > 0) {
                 distances_for_stops.at(pair) = dist;
             } else {
@@ -38,7 +36,6 @@ void TransportCatalogue::SetDistancesBetweenStops() {
                 distances_for_stops.insert({rev_pair, dist});
             }
         }
-    }
 }
 
 Stop* TransportCatalogue::GetStopByName(std::string_view stop_name) const {
@@ -79,4 +76,8 @@ std::map<std::string_view, const Stop*> TransportCatalogue::GetSortedStops() con
         }
     }
     return res;
+}
+
+const std::unordered_map<std::string_view, Stop*> TransportCatalogue::GetAllStops() const {
+    return name_to_stops_;
 }

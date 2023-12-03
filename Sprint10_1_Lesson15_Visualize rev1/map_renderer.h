@@ -120,10 +120,10 @@ public:
     std::string GetSVGString(std::map<std::string_view, const Bus*>& buses, std::map<std::string_view, const Stop*>& stops) const;
 
 private:
-    std::vector<svg::Polyline> GetRouteLines (std::map<std::string_view, const Bus*> buses, const SphereProjector& sp) const;
-    std::vector<svg::Text> GetRouteLabels(std::map<std::string_view, const Bus*>& buses, const SphereProjector& sp) const;
-    std::vector<svg::Circle> GetStopCircles(std::map<std::string_view, const Stop*>& stops, const SphereProjector& sp) const;
-    std::vector<svg::Text> GetStopLabels(std::map<std::string_view, const Stop*>& stops, const SphereProjector& sp) const;
+    std::vector<svg::Polyline> RenderRouteLines (std::map<std::string_view, const Bus*> buses, const SphereProjector& sp) const;
+    std::vector<svg::Text> RenderRouteLabels(std::map<std::string_view, const Bus*>& buses, const SphereProjector& sp) const;
+    std::vector<svg::Circle> RenderStopCircles(std::map<std::string_view, const Stop*>& stops, const SphereProjector& sp) const;
+    std::vector<svg::Text> RenderStopLabels(std::map<std::string_view, const Stop*>& stops, const SphereProjector& sp) const;
     //std::vector<svg::Circle> GetStops (std::vector<geo::Coordinates> coords, const SphereProjector& sp) const;
     VisualizationSettings render_settings_;
 };

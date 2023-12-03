@@ -15,7 +15,7 @@ namespace json {
     Node LoadNull(std::istream& input) {
         auto word = LoadAlpha(input);
         if (word == "null") {
-            return Node(nullptr);
+            return Node{nullptr};
         } else {
             throw ParsingError("Null parsing error");
         }
@@ -24,9 +24,9 @@ namespace json {
     Node LoadBool(std::istream& input) {
         auto word = LoadAlpha(input);
         if (word == "true") {
-            return Node(true);
+            return Node{true};
         } else if (word == "false") {
-            return Node(false);
+            return Node{false};
         } else {
             throw ParsingError("Bool parsing error");
         }
@@ -216,6 +216,7 @@ namespace json {
         return Document{LoadNode(input)};
     }
 
+/*
     //Конструкторы
     Node::Node(std::nullptr_t) :
         value_(nullptr) 
@@ -238,32 +239,32 @@ namespace json {
     Node::Node(Dict map) :
         value_(std::move(map))
     {}
-
+*/
 
     //Проверка типа
     bool Node::IsNull() const {
-        return (std::holds_alternative<std::nullptr_t>(value_));
+        return (std::holds_alternative<std::nullptr_t>(*this));
     }
     bool Node::IsDict() const {
-        return (std::holds_alternative<Dict>(value_));
+        return (std::holds_alternative<Dict>(*this));
     }
     bool Node::IsString() const {
-        return (std::holds_alternative<std::string>(value_));
+        return (std::holds_alternative<std::string>(*this));
     }
     bool Node::IsDouble() const {
         return IsInt() || IsPureDouble();
     }
     bool Node::IsPureDouble() const {
-        return std::holds_alternative<double>(value_);
+        return std::holds_alternative<double>(*this);
     }
     bool Node::IsArray() const {
-        return (std::holds_alternative<Array>(value_));
+        return (std::holds_alternative<Array>(*this));
     }
     bool Node::IsBool() const {
-        return (std::holds_alternative<bool>(value_));
+        return (std::holds_alternative<bool>(*this));
     }
     bool Node::IsInt() const {
-        return (std::holds_alternative<int>(value_));
+        return (std::holds_alternative<int>(*this));
     }
 
     //As*
@@ -271,52 +272,60 @@ namespace json {
         if (!IsString()) {
             throw std::logic_error("Not a string");
         }
-        return std::get<std::string>(value_);
+        auto* val = std::get_if<std::string>(this);
+        return *val;
+        
     }
     const Dict& Node::AsDict() const {
         if(!IsDict()) {
             throw std::logic_error("Not a map");
         }
-        return std::get<Dict>(value_);
+        auto* val = std::get_if<Dict>(this);
+        return *val;
     }
     double Node::AsDouble() const {
         if (!IsDouble()) {
             throw std::logic_error("wrong type");
         }
         if (IsInt()) {
-            return (double)std::get<int>(value_);
+            auto* val = std::get_if<int>(this);
+            return *val;
         }
-        return std::get<double>(value_);
+        auto* val = std::get_if<double>(this);
+        return *val;
     }
     const Array& Node::AsArray() const {
         if (!IsArray()) {
             throw std::logic_error("Not an Array");
         }
-        return std::get<Array>(value_);
+        auto* val = std::get_if<Array>(this);
+        return *val;
     }
     bool Node::AsBool() const {
         if (!IsBool()) {
             throw std::logic_error("Not boolean");
         }
-        return std::get<bool>(value_);
+        auto* val = std::get_if<bool>(this);
+        return *val;
     }
     int Node::AsInt() const {
         if (!IsInt()) {
             throw std::logic_error("Not an integer");
         }
-        return std::get<int>(value_);
+        auto* val = std::get_if<int>(this);
+        return *val;
     }
 
 
     //
     const Node::Value& Node::GetValue() const {
-        return value_;
+        return *this;
     }
     bool Node::operator==(const Node& rhs) const {
-        return value_ == rhs.GetValue();
+        return *this == rhs.GetValue();
     }
     bool Node::operator!=(const Node& rhs) const {
-        return !(value_ == rhs.GetValue());
+        return !(*this == rhs.GetValue());
     }
     Document::Document(Node root)
         : root_(std::move(root)) {

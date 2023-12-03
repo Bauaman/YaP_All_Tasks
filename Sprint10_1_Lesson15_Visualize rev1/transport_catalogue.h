@@ -11,12 +11,13 @@ class TransportCatalogue {
 public:
     TransportCatalogue() = default;
 
-    void AddStop(Stop&& stop);
-    void AddBus(Bus&& bus);
+    void AddStop(const Stop& stop);
+    void AddBus(const Bus& bus);
     Stop* GetStopByName(const std::string_view stop_name) const;
     Bus* GetBusByName(const std::string_view bus_name) const;
+    const std::unordered_map<std::string_view, Stop*> GetAllStops() const;
 
-    void SetDistancesBetweenStops();
+    void SetDistancesBetweenStops(const Stop* stop);
     int GetDistanceBetweenStops(Stop* from, Stop* to) const;
     const std::vector<std::string> GetRoutesForStop (const Stop* st_p) const;
     std::map<std::string_view, const Bus*> GetSortedBuses() const;

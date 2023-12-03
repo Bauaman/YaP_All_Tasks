@@ -1,6 +1,6 @@
 #include "map_renderer.h"
 
-std::vector<svg::Polyline> MapRenderer::GetRouteLines (std::map<std::string_view, const Bus*> buses, const SphereProjector& sp) const {
+std::vector<svg::Polyline> MapRenderer::RenderRouteLines (std::map<std::string_view, const Bus*> buses, const SphereProjector& sp) const {
     std::vector<svg::Polyline> res;
     int num = 0;
     for (auto [bus_name, bus] : buses) {
@@ -27,7 +27,7 @@ std::vector<svg::Polyline> MapRenderer::GetRouteLines (std::map<std::string_view
     return res;
 }
 
-std::vector<svg::Text> MapRenderer::GetRouteLabels(std::map<std::string_view, const Bus*>& buses, const SphereProjector& sp) const {
+std::vector<svg::Text> MapRenderer::RenderRouteLabels(std::map<std::string_view, const Bus*>& buses, const SphereProjector& sp) const {
     std::vector<svg::Text> res;
     int num = 0;   
     for (auto [bus_name, bus] : buses) {
@@ -76,7 +76,7 @@ std::vector<svg::Text> MapRenderer::GetRouteLabels(std::map<std::string_view, co
     return res;
 }
 
-std::vector<svg::Circle> MapRenderer::GetStopCircles(std::map<std::string_view, const Stop*>& stops, const SphereProjector& sp) const {
+std::vector<svg::Circle> MapRenderer::RenderStopCircles(std::map<std::string_view, const Stop*>& stops, const SphereProjector& sp) const {
     std::vector<svg::Circle> res;
     for (auto [stop_name, stop] : stops) {
             svg::Circle stop_c = svg::Circle()
@@ -88,7 +88,7 @@ std::vector<svg::Circle> MapRenderer::GetStopCircles(std::map<std::string_view, 
     return res;
 }
 
-std::vector<svg::Text> MapRenderer::GetStopLabels(std::map<std::string_view, const Stop*>& stops, const SphereProjector& sp) const {
+std::vector<svg::Text> MapRenderer::RenderStopLabels(std::map<std::string_view, const Stop*>& stops, const SphereProjector& sp) const {
     std::vector<svg::Text> res;
     for (auto [stop_name, stop] : stops) {
             svg::Text stop_label = svg::Text()
@@ -125,16 +125,16 @@ svg::Document/*void*/ MapRenderer::GetSVGDoc(std::map<std::string_view, const Bu
                         render_settings_.heigth_, 
                         render_settings_.padding_);
     svg::Document doc;
-    for (auto line : GetRouteLines(buses, sp)) {
+    for (auto line : RenderRouteLines(buses, sp)) {
         doc.Add(line);
     }
-    for (auto label : GetRouteLabels(buses,sp)) {
+    for (auto label : RenderRouteLabels(buses,sp)) {
         doc.Add(label);
     }
-    for (auto circle : GetStopCircles(stops, sp)) {
+    for (auto circle : RenderStopCircles(stops, sp)) {
         doc.Add(circle);
     }
-    for (auto stop_label : GetStopLabels(stops, sp)) {
+    for (auto stop_label : RenderStopLabels(stops, sp)) {
         doc.Add(stop_label);
     }
     //doc.Render(out);

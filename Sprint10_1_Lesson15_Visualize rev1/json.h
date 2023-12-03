@@ -17,10 +17,12 @@ namespace json {
     using Array = std::vector<Node>;
     using Dict = std::map<std::string, Node>;
 
-    class Node final{
+    class Node final : private std::variant<std::nullptr_t, bool, int, double, std::string, Dict, Array> {
     public:
-        using Value = std::variant<std::nullptr_t, Array, Dict, double, bool, int, std::string>;
+        using variant::variant;
+        using Value = variant; //std::variant<std::nullptr_t, Array, Dict, double, bool, int, std::string>;
 
+/*
         Node() = default;
         Node(std::nullptr_t);
         Node(std::string);
@@ -29,7 +31,7 @@ namespace json {
         Node(double);
         Node(Array);
         Node(Dict);
-
+*/
         bool IsNull() const;
         bool IsDict() const;
         bool IsString() const;
@@ -52,7 +54,7 @@ namespace json {
         bool operator!=(const Node& rhs) const; 
 
     private:
-        Value value_;
+        //Value value_;
 
     };
 

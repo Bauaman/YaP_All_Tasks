@@ -27,7 +27,7 @@ private:
 
     void ParseStopBaseRequest(const json::Node& node);
     void ParseBusBaseRequest(const json::Node& node);
-    void ProcessStopsPairDistances();
+
     
     json::Node FormBusResponce(const json::Node& node);
     json::Node FormStopResponce(const json::Node& node);
