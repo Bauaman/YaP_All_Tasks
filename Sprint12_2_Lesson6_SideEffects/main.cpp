@@ -32,7 +32,7 @@ void ComputeStatistics(iter it_begin, iter it_end, Tsum& sum, TsqSum& sq_sum, Tm
         local_max = *it_begin;
     } 
 
-    while (it_begin != it_end)
+    while (it_begin != it_end-1)
     {
         ++it_begin;
         if constexpr (need_sum) {
@@ -48,7 +48,6 @@ void ComputeStatistics(iter it_begin, iter it_end, Tsum& sum, TsqSum& sq_sum, Tm
         }
     }
     
-
     if constexpr (need_sum) {
         sum = local_sum;        
     }
