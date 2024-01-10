@@ -16,6 +16,7 @@ graph::DirectedWeightedGraph<double> TransportRouter::BuildGraph(const Transport
             ++vertex_id,
             static_cast<double>(bus_wait_time_)
         });
+        ++vertex_id;
     }
 
     stop_ids_ = std::move(stop_ids);
@@ -60,6 +61,9 @@ graph::DirectedWeightedGraph<double> TransportRouter::BuildGraph(const Transport
 }
 
 const std::optional<graph::Router<double>::RouteInfo> TransportRouter::FindRoute(const std::string_view from, const std::string_view to) const {
+    if (!stop_ids_.count(std::string(from)) || !stop_ids_.count(std::string(to))) {
+        return std::nullopt;
+    }
     return router_->BuildRoute(stop_ids_.at(std::string(from)), stop_ids_.at(std::string(to)));
 }
 
