@@ -27,7 +27,7 @@ public:
     
     RawMemory& operator=(RawMemory&& rhs) noexcept {
         if (this != &rhs) {
-            buffer_.~RawMemory();
+            this->~RawMemory();
             capacity_ = 0;
             Swap(rhs);
         }
