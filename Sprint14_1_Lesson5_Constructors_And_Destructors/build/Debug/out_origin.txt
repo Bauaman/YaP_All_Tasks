@@ -1,0 +1,58 @@
+Test1
+IdentityDocument::Ctor() : 1
+Passport::Ctor()
+Passport::PrintVisa(France) : 1
+IdentityDocument::Ctor() : 2
+Passport::Ctor()
+PrintInfo(3)
+Passport::PrintID() : 2 expiration date : 30/0/2034
+IdentityDocument::CCtor() : 3
+Passport::Dtor()
+IdentityDocument::Dtor() : 2
+IdentityDocument::PrintID() : 3
+IdentityDocument::Dtor() : 3
+Test2
+IdentityDocument::Ctor() : 2
+Passport::Ctor()
+IdentityDocument::Ctor() : 3
+DrivingLicence::Ctor()
+IdentityDocument::Ctor() : 4
+Passport::Ctor()
+Passport::PrintID() : 2 expiration date : 30/0/2034
+DrivingLicence::PrintID() : 3
+Passport::PrintID() : 4 expiration date : 30/0/2034
+Passport::Dtor()
+IdentityDocument::Dtor() : 2
+DrivingLicence::Dtor()
+IdentityDocument::Dtor() : 3
+Passport::Dtor()
+IdentityDocument::Dtor() : 4
+Test3
+IdentityDocument::Ctor() : 2
+Passport::Ctor()
+IdentityDocument::CCtor() : 3
+IdentityDocument::Ctor() : 4
+DrivingLicence::Ctor()
+IdentityDocument::CCtor() : 5
+IdentityDocument::Ctor() : 6
+DrivingLicence::Dtor()
+IdentityDocument::Dtor() : 4
+Passport::Dtor()
+IdentityDocument::Dtor() : 2
+IdentityDocument::PrintID() : 3
+IdentityDocument::PrintID() : 5
+IdentityDocument::PrintID() : 6
+IdentityDocument::PrintID() : 3
+Test4
+unique_id_count_ : 4
+Test5
+IdentityDocument::Ctor() : 5
+Passport::Ctor()
+unique_id_count_ : 5
+Passport::Dtor()
+IdentityDocument::Dtor() : 5
+IdentityDocument::Dtor() : 6
+IdentityDocument::Dtor() : 5
+IdentityDocument::Dtor() : 3
+Passport::Dtor()
+IdentityDocument::Dtor() : 1
