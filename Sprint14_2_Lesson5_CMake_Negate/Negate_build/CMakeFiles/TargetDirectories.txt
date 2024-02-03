@@ -1,0 +1,3 @@
+C:/Users/andre/YaP_All_Tasks/YaP_All_Tasks-1/Sprint14_2_Lesson5_CMake_Negate/Negate_build/CMakeFiles/negate.dir
+C:/Users/andre/YaP_All_Tasks/YaP_All_Tasks-1/Sprint14_2_Lesson5_CMake_Negate/Negate_build/CMakeFiles/edit_cache.dir
+C:/Users/andre/YaP_All_Tasks/YaP_All_Tasks-1/Sprint14_2_Lesson5_CMake_Negate/Negate_build/CMakeFiles/rebuild_cache.dir

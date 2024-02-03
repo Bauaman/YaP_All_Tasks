@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\hmirror.dir/objects.a
+C:\msys64\mingw64\bin\ar.exe qc CMakeFiles\hmirror.dir/objects.a @CMakeFiles\hmirror.dir\objects1.rsp
+C:\msys64\mingw64\bin\c++.exe -g -Wl,--whole-archive CMakeFiles\hmirror.dir/objects.a -Wl,--no-whole-archive -o hmirror.exe -Wl,--out-implib,libhmirror.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\hmirror.dir\linkLibs.rsp

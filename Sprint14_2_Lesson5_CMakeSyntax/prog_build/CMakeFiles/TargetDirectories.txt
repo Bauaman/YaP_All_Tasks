@@ -1,0 +1,5 @@
+C:/Users/andre/YaP_All_Tasks/YaP_All_Tasks-1/Sprint14_2_Lesson5_CMakeSyntax/prog_build/CMakeFiles/hmirror.dir
+C:/Users/andre/YaP_All_Tasks/YaP_All_Tasks-1/Sprint14_2_Lesson5_CMakeSyntax/prog_build/CMakeFiles/vmirror.dir
+C:/Users/andre/YaP_All_Tasks/YaP_All_Tasks-1/Sprint14_2_Lesson5_CMakeSyntax/prog_build/CMakeFiles/sobel.dir
+C:/Users/andre/YaP_All_Tasks/YaP_All_Tasks-1/Sprint14_2_Lesson5_CMakeSyntax/prog_build/CMakeFiles/edit_cache.dir
+C:/Users/andre/YaP_All_Tasks/YaP_All_Tasks-1/Sprint14_2_Lesson5_CMakeSyntax/prog_build/CMakeFiles/rebuild_cache.dir
