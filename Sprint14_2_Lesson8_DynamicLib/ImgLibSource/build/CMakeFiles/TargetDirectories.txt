@@ -1,0 +1,4 @@
+C:/Users/andre/YaP_All_Tasks/YaP_All_Tasks-1/Sprint14_2_Lesson8_DynamicLib/ImgLibSource/build/CMakeFiles/ImgLib.dir
+C:/Users/andre/YaP_All_Tasks/YaP_All_Tasks-1/Sprint14_2_Lesson8_DynamicLib/ImgLibSource/build/CMakeFiles/ImgLibDll.dir
+C:/Users/andre/YaP_All_Tasks/YaP_All_Tasks-1/Sprint14_2_Lesson8_DynamicLib/ImgLibSource/build/CMakeFiles/edit_cache.dir
+C:/Users/andre/YaP_All_Tasks/YaP_All_Tasks-1/Sprint14_2_Lesson8_DynamicLib/ImgLibSource/build/CMakeFiles/rebuild_cache.dir
