@@ -1,8 +1,8 @@
-# Install script for directory: C:/Users/andre/YaP_All_Tasks/YaP_All_Tasks-1/Sprint14_2_Lesson9_LibJpeg/ImgLib
+# Install script for directory: C:/Users/andre/YaP_All_Tasks/YaP_All_Tasks-1/Sprint14_2_Lesson9_LibJpeg/ImgConverter
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/ImgLib")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/Negate")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -37,6 +37,12 @@ if(NOT DEFINED CMAKE_OBJDUMP)
   set(CMAKE_OBJDUMP "C:/msys64/mingw64/bin/objdump.exe")
 endif()
 
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for each subdirectory.
+  include("C:/Users/andre/YaP_All_Tasks/YaP_All_Tasks-1/Sprint14_2_Lesson9_LibJpeg/ImgConverter/Debug/ImgLibBuildDir/cmake_install.cmake")
+
+endif()
+
 if(CMAKE_INSTALL_COMPONENT)
   set(CMAKE_INSTALL_MANIFEST "install_manifest_${CMAKE_INSTALL_COMPONENT}.txt")
 else()
@@ -45,5 +51,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/andre/YaP_All_Tasks/YaP_All_Tasks-1/Sprint14_2_Lesson9_LibJpeg/ImgLib/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/andre/YaP_All_Tasks/YaP_All_Tasks-1/Sprint14_2_Lesson9_LibJpeg/ImgConverter/Debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

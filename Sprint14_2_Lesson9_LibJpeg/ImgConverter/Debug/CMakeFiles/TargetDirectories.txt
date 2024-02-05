@@ -1,0 +1,6 @@
+C:/Users/andre/YaP_All_Tasks/YaP_All_Tasks-1/Sprint14_2_Lesson9_LibJpeg/ImgConverter/Debug/CMakeFiles/imgconv.dir
+C:/Users/andre/YaP_All_Tasks/YaP_All_Tasks-1/Sprint14_2_Lesson9_LibJpeg/ImgConverter/Debug/CMakeFiles/edit_cache.dir
+C:/Users/andre/YaP_All_Tasks/YaP_All_Tasks-1/Sprint14_2_Lesson9_LibJpeg/ImgConverter/Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/andre/YaP_All_Tasks/YaP_All_Tasks-1/Sprint14_2_Lesson9_LibJpeg/ImgConverter/Debug/ImgLibBuildDir/CMakeFiles/ImgLib.dir
+C:/Users/andre/YaP_All_Tasks/YaP_All_Tasks-1/Sprint14_2_Lesson9_LibJpeg/ImgConverter/Debug/ImgLibBuildDir/CMakeFiles/edit_cache.dir
+C:/Users/andre/YaP_All_Tasks/YaP_All_Tasks-1/Sprint14_2_Lesson9_LibJpeg/ImgConverter/Debug/ImgLibBuildDir/CMakeFiles/rebuild_cache.dir
