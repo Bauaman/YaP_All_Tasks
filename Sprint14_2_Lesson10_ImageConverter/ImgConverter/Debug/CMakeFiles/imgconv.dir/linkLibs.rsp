@@ -1,0 +1,1 @@
+  -L"C:/Users/andre/YaP_All_Tasks/YaP_All_Tasks-1/Sprint14_2_Lesson9_1_LbiJpeg/libjpeg/lib/Debug"  ImgLibBuildDir/libImgLib.a -ljpeg -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 
