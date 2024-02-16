@@ -68,6 +68,8 @@ void TestStringToPositionInvalid() {
 }
 }  // namespace
 int main() {
+    //Position pos = Position::FromString("ASD1234");
+    //pos.ToString();
     TestRunner tr;
     RUN_TEST(tr, TestPositionAndStringConversion);
     RUN_TEST(tr, TestPositionToStringInvalid);
