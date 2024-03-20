@@ -60,11 +60,55 @@ Size Sheet::GetPrintableSize() const {
     if (cells_.begin() == cells_.end()) {
         return {0,0};
     }
+    Size result{0, 0};
+    for (auto iter = cells_.begin(); iter != cells_.end(); ++iter) {
+        if (iter->second.GetText().size() == 0) {
+            continue;
+        }
+        const int column = iter->first.col;
+        const int row = iter->first.row;
+        if (result.cols <= column) {
+            result.cols = column + 1;
+        }
+        if (result.rows <= row) {
+            result.rows = row + 1;
+        }
+    }
+    return result;
 
 }
 
-void Sheet::PrintValues(std::ostream& output) const {}
-void Sheet::PrintTexts(std::ostream& output) const {}
+void Sheet::Print(bool text_or_value, std::ostream& output) const {
+    Size size = GetPrintableSize();
+    for (int row = 0; row < size.rows; ++row) {
+        bool first = true;
+        for (int col = 0; col < size.cols; ++col) {
+            if (!first) {
+                output << "\t";
+            }
+            first = false;
+            Position pos = { row, col };
+            auto it = cells_.find(pos);
+            if (it != cells_.end()) {
+                if (!text_or_value) {
+                    auto value = cells_.at(pos).GetValue();
+                    std::visit([&output](auto&& arg) {output << arg; }, value);
+                }
+                else {
+                    output << cells_.at(pos).GetText();
+                }
+            }
+        }
+        output << "\n";
+    }
+}
+
+void Sheet::PrintValues(std::ostream& output) const {
+    Print(true, output);
+}
+void Sheet::PrintTexts(std::ostream& output) const {
+    Print (false, output);
+}
 
 std::unique_ptr<SheetInterface> CreateSheet() {
     return std::make_unique<Sheet>();

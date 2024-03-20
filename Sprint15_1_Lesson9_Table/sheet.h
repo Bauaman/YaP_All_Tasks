@@ -38,6 +38,7 @@ public:
 	// Можете дополнить ваш класс нужными полями и методами
 
 private:
+    void Print(bool text_or_value, std::ostream& output) const;
 	// Можете дополнить ваш класс нужными полями и методами
     std::unordered_map<Position, Cell, Hasher, Comp> cells_;
 };
