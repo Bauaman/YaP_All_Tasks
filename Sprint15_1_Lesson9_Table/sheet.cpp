@@ -90,7 +90,7 @@ void Sheet::Print(bool text_or_value, std::ostream& output) const {
             Position pos = { row, col };
             auto it = cells_.find(pos);
             if (it != cells_.end()) {
-                if (!text_or_value) {
+                if (text_or_value) {
                     auto value = cells_.at(pos).GetValue();
                     std::visit([&output](auto&& arg) {output << arg; }, value);
                 }
@@ -107,7 +107,7 @@ void Sheet::PrintValues(std::ostream& output) const {
     Print(true, output);
 }
 void Sheet::PrintTexts(std::ostream& output) const {
-    Print (false, output);
+    Print(false, output);
 }
 
 std::unique_ptr<SheetInterface> CreateSheet() {
