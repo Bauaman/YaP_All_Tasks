@@ -37,7 +37,13 @@
 .build
 Makefile
 bin
+build
 Sprint6_1_Lesson_4_Pointers and const/YaP_All_Tasks.code-workspace
 YaP_All_Tasks-1.code-workspace
 YaP_All_Tasks.code-workspace
 Sprint6_2_Lesson3_Insert_and_Erase/build/Debug/outDebug
+
+*/build
+*/dist
+*build
+*dist

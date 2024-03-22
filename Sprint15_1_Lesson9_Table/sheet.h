@@ -35,10 +35,7 @@ public:
     void PrintValues(std::ostream& output) const override;
     void PrintTexts(std::ostream& output) const override;
 
-	// Можете дополнить ваш класс нужными полями и методами
-
 private:
-    void Print(bool text_or_value, std::ostream& output) const;
-	// Можете дополнить ваш класс нужными полями и методами
-    std::unordered_map<Position, Cell, Hasher, Comp> cells_;
+    void PrintCells(std::ostream& output, const std::function<void(const CellInterface&)>& printCell) const;
+    std::vector<std::vector<std::unique_ptr<Cell>>> cells_;
 };
